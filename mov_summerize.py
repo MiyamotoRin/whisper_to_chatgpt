@@ -1,13 +1,13 @@
 import torch
 import os
 import subprocess
-
+import whisper
 import youtube_dl
 
-model_size = 'small' #whisperのモデルのサイズ
+input_model_size = 'small' #whisperのモデルのサイズ
 
 input_url = 'https://www.youtube.com/watch?v=DerrX7XoLDc'
-output_file = 'result_' + model_size + '.txt'
+output_file = 'result_' + input_model_size + '.txt'
 source_language = 'Japanese'
 
 # YouTubeからmp3形式でダウンロードするよう指定する
@@ -33,9 +33,19 @@ try:
     # YouTubeから動画をダウンロード
     ydl = youtube_dl.YoutubeDL(ydl_opts)
     info_dict = ydl.extract_info(input_url, download=True)
-
-    # モデルを指定して文字起こし
-    subprocess.run('whisper ' + tmp_audio + ' --language ' + str(source_language) + ' --model ' + str(model_size) + ' --output_format txt', shell=True)
+    
+    # 文字起こしのモデルを読み込む
+    transcription_model = whisper.load_model(input_model_size)
+    
+    # 動画の音声データをwhisperに読み込む    
+    transcription_audio = whisper.load_audio(tmp_audio)
+    
+    # make log-Mel spectrogram and move to the same device as the model
+    # わからなかったのでコピペ、多分CPUかGPUかの選択
+    mel = whisper.log_mel_spectrogram(transcription_audio).to(transcription_model.device)
+    
+    options = whisper.DecodingOptions(fp16=False)
+    result = whisper.decode(transcription_model, mel, options)
     
 except Exception as e:
     print(e)
