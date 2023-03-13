@@ -13,7 +13,8 @@ def summerize():
   completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=[
-      {"role": "user", "content": "Please summerize this text."},
+      # {"role": "user", "content": "Please summerize the following text."},
+      {"role": "user", "content": "以下の文章を要約してください。"},
       {"role": "user", "content": text}
     ]
   )

@@ -27,7 +27,7 @@ def transcription(input_model_size, source_language):
         
         # pprint.pprint(result['text'])
         
-        # 句点で改行して保存する
+        # 空白で改行して保存する
         text = result['text'].replace(' ', ' \n')
         with open("./tmp.txt", mode='w', encoding='utf-8') as f:
             f.write(text)
