@@ -6,7 +6,7 @@ input_model_size = 'small' #whisperのモデルのサイズ
 
 source_language = 'Japanese'
 
-tmp_audio = "interview.mp4"
+tmp_audio = "tmp.m4a"
 
 def transcription(input_model_size, source_language):
     # この行を追加してPyTorchでCPUの利用を強制する
@@ -28,9 +28,9 @@ def transcription(input_model_size, source_language):
         # pprint.pprint(result['text'])
         
         # 空白で改行して保存する
-        text = result['text'].replace(' ', ' \n')
+        # text = result['text'].replace(' ', ' \n')
         with open("./tmp.txt", mode='w', encoding='utf-8') as f:
-            f.write(text)
+            f.write(result['text'])
         
     except Exception as e:
         print(e)

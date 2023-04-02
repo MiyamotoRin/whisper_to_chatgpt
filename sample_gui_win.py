@@ -2,10 +2,12 @@
 import tkinter as tk
 from tkinter import ttk
 
+import yt_download
 import mov_transcription
 import txt_summerize
 
 def run():
+    yt_download.download_video(url_box.get())
     mov_transcription.transcription('small', 'Japanese')
     txt_summerize.summerize()
     with open('sum.txt', mode='r', encoding='utf-8') as f:
