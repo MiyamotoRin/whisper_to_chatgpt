@@ -13,9 +13,9 @@ openai-whisper = "*"
 torch = {version="*", index="pytorch"}
 torchvision = {version="*", index="pytorch"}
 torchaudio = {version="*", index="pytorch"}
-youtube-dl = "*"
 openai = "*"
 python-dotenv = "*"
+yt-dlp = "*"
 
 [dev-packages]
 

@@ -1,20 +1,14 @@
-import youtube_dl
+import yt_dlp
 
-input_url = 'https://www.youtube.com/watch?v=5Xxtq6dkG4g'
-tmp_audio = "yt_tmp.mp3"
+def download_video(url):
+    ydl_opts = {
+        'format': 'm4a/bestaudio',  # Download the best quality video
+        'outtmpl': 'tmp.%(ext)s',  # Save the downloaded video with its title as the filename
+    }
+    
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
 
-# YouTubeからmp3形式でダウンロードするよう指定する
-ydl_opts = {
-    'format': 'bestaudio/best',
-    'outtmpl':  "yt_tmp" + '.%(ext)s',
-    'postprocessors': [
-        {'key': 'FFmpegExtractAudio',
-        'preferredcodec': 'mp3',
-         'preferredquality': '192'},
-        {'key': 'FFmpegMetadata'},
-    ],
-}
-
-# YouTubeから動画をダウンロード
-ydl = youtube_dl.YoutubeDL(ydl_opts)
-info_dict = ydl.extract_info(input_url, download=True)
+if __name__ == "__main__":
+    video_url = input("Enter the YouTube video URL: ")
+    download_video(video_url)
