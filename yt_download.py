@@ -1,6 +1,10 @@
+import os
 import yt_dlp
 
 def download_video(url):
+    if os.path.exists("tmp.m4a"):
+        os.remove("tmp.m4a")
+    
     ydl_opts = {
         'format': 'm4a/bestaudio',  # Download the best quality video
         'outtmpl': 'tmp.%(ext)s',  # Save the downloaded video with its title as the filename

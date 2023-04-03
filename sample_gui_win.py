@@ -32,7 +32,9 @@ run_button = tk.Button(root, text = "Run", command=run)
 run_button.place(x = 160, y = 60)
 
 # 結果表示用のラベル設置
-result_label = tk.Label(root, text="Results will be displayed here")
+result_label = tk.Label(root, 
+                        text="Results will be displayed here",
+                        wraplength=300,)
 result_label.place(x=20, y=90)
 
 # ウインドウ状態の維持

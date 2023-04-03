@@ -11,15 +11,17 @@ def summerize():
       text = f.read()
 
   completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
+    model="gpt-4",
     messages=[
-      # {"role": "user", "content": "Please summerize the following text."},
       {"role": "user", "content": "以下の文章を要約してください。"},
       {"role": "user", "content": text}
     ]
   )
 
-  print(completion.choices[0].message.content)
-
   with open("./sum.txt", mode='w', encoding='utf-8') as f:
       f.write(completion.choices[0].message.content)
+      
+  return completion.choices[0].message.content
+
+if __name__ == "__main__":
+  print(summerize())
