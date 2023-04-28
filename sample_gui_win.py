@@ -8,8 +8,8 @@ import txt_summerize
 
 def run():
     yt_download.download_video(url_box.get())
-    mov_transcription.transcription('small', 'Japanese')
-    txt_summerize.summerize()
+    mov_transcription.transcription('tmp.m4a', 'Japanese')
+    txt_summerize.summerize('./tmp.txt')
     with open('sum.txt', mode='r', encoding='utf-8') as f:
         text = f.read()
         text = text.replace('。', '。\n')
