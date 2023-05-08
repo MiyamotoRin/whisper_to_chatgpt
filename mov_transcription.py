@@ -19,10 +19,18 @@ def transcription(audio_file, source_language):
         # 動画の音声データをwhisperに読み込む    
         transcription_audio = whisper.load_audio(audio_file)
         
-        result = transcription_model.transcribe(transcription_audio, 
+        # 言語を指定して文字起こしを実行する
+        options = dict(language="English", beam_size=5, best_of=5)
+        translate_options = dict(task="translate", **options)
+        
+        # result = transcription_model.transcribe(transcription_audio, 
+        #                                         verbose=True,
+        #                                         language=source_language,
+        #                                         )
+        
+        result = transcription_model.transcribe(transcription_audio,
                                                 verbose=True,
-                                                language=source_language,
-                                                )
+                                                **translate_options)
         
         with open("./tmp.txt", mode='w', encoding='utf-8') as f:
             f.write(result['text'])
