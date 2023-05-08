@@ -1,7 +1,10 @@
+import os
 import sys
-import torch
 import whisper
-import pprint
+import openai
+from dotenv import load_dotenv
+
+load_dotenv(".env")
 
 input_model_size = 'small' #whisperのモデルのサイズ
 
@@ -12,25 +15,9 @@ def transcription(audio_file, source_language):
     # torch.cuda.is_available = lambda: False
 
     try:
-        
-        # 文字起こしのモデルを読み込む
-        transcription_model = whisper.load_model(input_model_size)
-        
-        # 動画の音声データをwhisperに読み込む    
-        transcription_audio = whisper.load_audio(audio_file)
-        
-        # 言語を指定して文字起こしを実行する
-        options = dict(language="English", beam_size=5, best_of=5)
-        translate_options = dict(task="translate", **options)
-        
-        # result = transcription_model.transcribe(transcription_audio, 
-        #                                         verbose=True,
-        #                                         language=source_language,
-        #                                         )
-        
-        result = transcription_model.transcribe(transcription_audio,
-                                                verbose=True,
-                                                **translate_options)
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+        audio = open(audio_file, 'rb')
+        result = openai.Audio.translate("whisper-1", audio)
         
         with open("./tmp.txt", mode='w', encoding='utf-8') as f:
             f.write(result['text'])
